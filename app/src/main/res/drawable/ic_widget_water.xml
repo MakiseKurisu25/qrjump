@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- 饮水器：一滴水 -->
+    <path
+        android:fillColor="#8FD8FF"
+        android:pathData="M12,2.2 C12,2.2 5.2,10 5.2,14.2 A6.8,6.8 0 0,0 18.8,14.2 C18.8,10 12,2.2 12,2.2 Z" />
+    <!-- 高光，让水滴不至于是一块死色 -->
+    <path
+        android:fillColor="#CCFFFFFF"
+        android:pathData="M9.6,13.6 A1.6,2.2 0 0,0 9.6,17.4 A1.7,2.4 0 0,1 9.6,13.6 Z" />
+</vector>

@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- 热水器：花洒 + 水滴 -->
+    <path
+        android:fillColor="#C9B6FF"
+        android:pathData="M4.2,4.6 L10.4,7.4 L8.6,11.2 L2.4,8.4 Z" />
+    <path
+        android:fillColor="#C9B6FF"
+        android:pathData="M9.2,10.4 L12.2,9 L14.6,14.4 L11.6,15.8 Z" />
+    <!-- 三滴水 -->
+    <path
+        android:fillColor="#8FD8FF"
+        android:pathData="M8.4,16.4 m-1.1,0 a1.1,1.4 0 1,0 2.2,0 a1.1,1.4 0 1,0 -2.2,0" />
+    <path
+        android:fillColor="#8FD8FF"
+        android:pathData="M13.2,17.8 m-1.1,0 a1.1,1.4 0 1,0 2.2,0 a1.1,1.4 0 1,0 -2.2,0" />
+    <path
+        android:fillColor="#8FD8FF"
+        android:pathData="M18,19.2 m-1.1,0 a1.1,1.4 0 1,0 2.2,0 a1.1,1.4 0 1,0 -2.2,0" />
+</vector>

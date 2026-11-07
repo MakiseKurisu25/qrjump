@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  设备列表的一行（液态玻璃版）。
+
+  id 与旧版一致（rowDevice / tvDeviceName / btnDeviceMore），
+  DevicesActivity 的 findViewById 全部照旧能用。
+
+  排版：左边一行名字，右边一个圆形「⋯」。
+  刻意不再放第二行小字（设备号 / 上次使用时间）：
+  名字就是用户自己起的那个叫法，需要核对机身时看行菜单标题即可。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rowDevice"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/bg_glass_row"
+    android:clickable="true"
+    android:focusable="true"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="8dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="18dp"
+    android:paddingBottom="18dp">
+
+    <TextView
+        android:id="@+id/tvDeviceName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!--
+      「⋯」用 TextView 而不是 Button：
+      Material Button 自带背景/最小宽度/内边距，套在玻璃行里会很突兀，
+      而且它默认强制大写、会把这个符号渲染得很怪。
+    -->
+    <TextView
+        android:id="@+id/btnDeviceMore"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@drawable/bg_glass_circle"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="@string/devices_more"
+        android:textColor="#CCFFFFFF"
+        android:textSize="16sp" />
+
+</LinearLayout>

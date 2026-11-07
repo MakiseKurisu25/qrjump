@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  单台设备的 1×1 小部件。
+
+  只有两样东西：一个区分「饮水器 / 热水控制」的小图标，加一行名字。
+  一行名字就够 —— 1×1 里塞两行字时，第二行必然被裁掉半截，
+  而且桌面图标下面本来就有系统自带的一行字，再加就成了三层。
+
+  尺寸按「一格」的实际可用面积倒推（2026-11-07 实测）：一格约 70dp，
+  减去桌面自己的 8dp 边距，真正能画的不到 60dp。所以图标压到 26dp、
+  名字 10sp 单行、整体 padding 4dp —— 一开始按 30dp+11sp+8dp 写，
+  在实际一格里的效果是名字被压掉半行。
+
+  注意：RemoteViews 支持范围很窄，只能用 LinearLayout / FrameLayout /
+  TextView / ImageView 这类原生控件，不能用 ConstraintLayout、不能用
+  自定义 View、不能写 drawableStart 之后再改，所以层级全是写死的。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widgetCellRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_widget_cell"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="4dp">
+
+    <ImageView
+        android:id="@+id/widgetCellIcon"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:contentDescription="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_widget_water" />
+
+    <TextView
+        android:id="@+id/widgetCellName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

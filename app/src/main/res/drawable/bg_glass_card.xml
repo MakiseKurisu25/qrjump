@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  「液态玻璃」卡片底。
+
+  四个细节决定它像不像玻璃：
+    1. 半透明白（不是纯白）—— 让背后的光斑透上来，这是玻璃的第一特征；
+    2. 斜向渐变 —— 玻璃不是均匀的，光穿过它有方向性；
+    3. 1dp 白色描边（低不透明度）—— 边缘高光，这是"液态"的关键，
+       纯色描边会显得像塑料；
+    4. 大圆角（22dp）—— 圆角越大越柔和，越像液滴表面张力形成的边界。
+
+  API 31+ 可以在此基础上用 RenderEffect 做真模糊，但没有必要：
+  背后本来就是我们自己画的柔光，模糊一层等于把柔光糊开，肉眼看不出区别。
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <corners android:radius="22dp" />
+
+    <gradient
+        android:angle="315"
+        android:startColor="#2EFFFFFF"
+        android:centerColor="#1AFFFFFF"
+        android:endColor="#12FFFFFF"
+        android:type="linear" />
+
+    <stroke
+        android:width="1dp"
+        android:color="#33FFFFFF" />
+</shape>

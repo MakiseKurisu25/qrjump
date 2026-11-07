@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  主按钮：玻璃胶囊。
+
+  不用 Material 默认填充按钮，因为纯色块放在玻璃背景上会"破功"——
+  一眼就看出是实心色块贴上去的。改成：半透明高光渐变 + 亮边 + 全圆角，
+  读起来像一颗被光打透的液态胶囊。
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="26dp" />
+            <gradient
+                android:angle="315"
+                android:startColor="#802EC5FF"
+                android:centerColor="#665FA8FF"
+                android:endColor="#4D8B5CF6"
+                android:type="linear" />
+            <stroke
+                android:width="1dp"
+                android:color="#80FFFFFF" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="26dp" />
+            <gradient
+                android:angle="315"
+                android:startColor="#CC2EC5FF"
+                android:centerColor="#B35FA8FF"
+                android:endColor="#998B5CF6"
+                android:type="linear" />
+            <stroke
+                android:width="1dp"
+                android:color="#59FFFFFF" />
+        </shape>
+    </item>
+
+</selector>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  整页背景：深色底 + 两团柔光。
+
+  为什么不用真模糊：Android 直到 12（API 31）才有 RenderEffect 背景模糊，
+  且要求 targetSdk 31+ 并且对性能有明显开销；这台是 Android 14 但目标是
+  minSdk 26，用不了。所以这里用「深色渐变 + 两团半透明径向光斑」模拟
+  液态玻璃下面那层折射光——视觉上足够接近，且是纯 drawable，零运行时开销。
+
+  层叠顺序（layer-list 从下往上）：
+    1. 基础线性渐变（深靛蓝 → 近黑紫）
+    2. 左上偏青的一团柔光
+    3. 右下偏品红的一团柔光
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="#0A0F1E"
+                android:centerColor="#141A2E"
+                android:endColor="#1A1030"
+                android:type="linear" />
+        </shape>
+    </item>
+
+    <item
+        android:left="-160dp"
+        android:top="-220dp"
+        android:right="-60dp"
+        android:bottom="-420dp">
+        <shape android:shape="oval">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="320dp"
+                android:startColor="#4D2EC5FF"
+                android:centerColor="#1A2EC5FF"
+                android:endColor="#002EC5FF" />
+        </shape>
+    </item>
+
+    <item
+        android:left="-80dp"
+        android:top="-540dp"
+        android:right="-200dp"
+        android:bottom="-120dp">
+        <shape android:shape="oval">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="300dp"
+                android:startColor="#40B14BFF"
+                android:centerColor="#14B14BFF"
+                android:endColor="#00B14BFF" />
+        </shape>
+    </item>
+
+</layer-list>

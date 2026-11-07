@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  单设备小部件的信息声明。
+
+  尺寸按「1×1 格」写。这里有个必须记下来的换算（2026-11-07 实测踩到）：
+  Android 用 cells = ceil((size + 30) / 70) 从 dp 反推格数，
+  所以 110dp 算出来是 ceil(140/70) = **2 格**，选择器里显示成「2 x 2」。
+  要 1 格，size 必须 ≤ 40dp，这里取 40dp。
+  targetCellWidth/Height 是 Android 12+ 的新字段，直接声明占几格，比 dp 更准；
+  但在旧系统上会被忽略，所以 minWidth/minHeight 也必须写对，不能只靠它。
+
+  resizeMode 刻意不写：方格被拉大就成了一块空地，而它上面只有一行字，
+  拉大反而难看。想要大块的信息，用列表小部件比拉大这个更合适。
+
+  updatePeriodMillis=0：不靠系统定时刷新。设备簿一变，[DeviceStore] 会主动
+  调 [DeviceWidgetProvider.refresh]；改名后配置页也会 updateOne。
+
+  configure 指向 [WidgetConfigActivity]：没有它，手动拖出来的方块不知道该绑谁。
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="com.local.qrjump.WidgetConfigActivity"
+    android:description="@string/widget_desc"
+    android:initialLayout="@layout/widget_cell"
+    android:minHeight="40dp"
+    android:minWidth="40dp"
+    android:previewLayout="@layout/widget_cell"
+    android:targetCellHeight="1"
+    android:targetCellWidth="1"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen" />

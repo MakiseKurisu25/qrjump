@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  无障碍服务的声明。
+
+  accessibilityEventTypes 只订阅窗口内容变化与窗口切换、滚动：这三类足够
+  发现设备页渲染完成，订阅多了只会白耗电。
+
+  accessibilityFeedbackType="feedbackGeneric"：给系统一个通用反馈类型，
+  不声明会打断说话类服务。
+
+  canRetrieveWindowContent="true"：必须开，否则拿不到控件树（也就点不了按钮）。
+
+  canPerformGestures="true"：必须开。2026-11-06 21:05 用 uiautomator dump 抓了
+  真实设备页的控件树，发现「立即使用」是 WebView 渲染出来的 React 文本节点，
+  它自己以及往上六层祖先**全部 clickable=false**，performAction(ACTION_CLICK)
+  对它无效。所以真正能点动它的只有 dispatchGesture 按坐标点一下，
+  而 dispatchGesture 需要这个标志位，缺了会被系统直接拒绝。
+
+  notificationTimeout="120"：事件合并窗口，略长一点可以少被高频重绘打断。
+
+  packageNames 刻意**不设置**：如果写死成只订阅支付宝，某些 ROM 上会漏事件；
+  真正的过滤放在 AutoUnlockService.onAccessibilityEvent 里用 e.packageName 判断，
+  那样更可靠、也更容易在日志里看清"因为不是支付宝所以没动手"。
+
+  description 会展示在系统无障碍设置页里，让用户明确知道这个服务干什么、
+  什么时候会动手 —— 不写会变成"未提供说明"的黑盒。
+-->
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeWindowContentChanged|typeWindowStateChanged|typeViewScrolled"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:accessibilityFlags="flagReportViewIds|flagIncludeNotImportantViews"
+    android:canRetrieveWindowContent="true"
+    android:canPerformGestures="true"
+    android:description="@string/accessibility_desc"
+    android:notificationTimeout="120"
+    android:settingsActivity="com.local.qrjump.SettingsActivity" />

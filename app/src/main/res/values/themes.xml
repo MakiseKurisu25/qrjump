@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.QrJump" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#1F6FEB</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#0B5CD5</item>
+        <item name="android:windowBackground">@drawable/bg_app_gradient</item>
+        <!-- 旧主题也要透明状态栏，避免短暂白屏/蓝带漏出来 -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!-- 扫码页全屏黑底，相机预览铺满 -->
+    <style name="Theme.QrJump.Fullscreen" parent="Theme.QrJump">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <!--
+      快捷方式落点用的透明主题：不画界面、不闪白屏，
+      点完桌面图标后直接把官方页面顶上来。
+    -->
+    <style name="Theme.QrJump.Transparent" parent="Theme.QrJump">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <!--
+      设置页与 WebView 页专用的【固定浅色】主题。
+
+      为什么必须固定成浅色、不能用 DayNight：
+      设置页现在是一块近白色的磨砂玻璃面板（bg_glass_panel_light）。
+      如果跟着系统进深色模式，Material3 会把默认文字刷成白色，
+      白字压在浅玻璃上 = 整页看不见。这种"局部反色"是玻璃拟态最常见的翻车点，
+      解决办法不是给每个 TextView 手写颜色，而是让这一页永远走浅色分支。
+    -->
+    <style name="Theme.QrJump.Light" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">#1F6FEB</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#0B5CD5</item>
+        <item name="android:windowBackground">@drawable/bg_app_gradient</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <!--
+          状态栏必须透明，否则它会用 colorPrimary 刷成一条不透明蓝带，
+          正好压在紫色渐变顶上，一眼就"破功"。
+          透明之后渐变会一直延伸到屏幕顶端，玻璃面板像是浮在光里。
+        -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <!-- 设备列表：深色玻璃，主题也固定深色，保证白字始终对 -->
+    <style name="Theme.QrJump.Dark" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">#2EC5FF</item>
+        <item name="colorOnPrimary">#08111F</item>
+        <item name="colorSecondary">#8B5CF6</item>
+        <item name="android:windowBackground">@drawable/bg_app_gradient</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">#00000000</item>
+    </style>
+</resources>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QrJump</string>
+    <string name="title_settings">设置</string>
+    <string name="title_webview">内置浏览器（策略 C）</string>
+
+    <!-- 扫码页 -->
+    <string name="btn_scan_back">返回设备列表</string>
+    <string name="scan_starting">相机启动中…</string>
+    <string name="scan_scanning">对准饮水器上的二维码</string>
+    <string name="scan_camera_failed">相机启动失败：%1$s</string>
+    <string name="scan_rejected">这不是胖乖设备的二维码</string>
+    <string name="msg_need_camera">需要相机权限才能扫码</string>
+    <string name="msg_need_camera_hint">请到「系统设置 → 应用 → QrJump → 权限」里手动开启相机权限</string>
+    <string name="msg_no_last_url">还没有扫描到有效二维码</string>
+
+    <string name="result_id_kind">标识（%1$s）：%2$s</string>
+    <string name="result_url">链接：%1$s</string>
+    <string name="result_params">参数：%1$s</string>
+    <string name="result_strategy">当前策略：%1$s</string>
+    <string name="result_debug_on">（调试模式已开启，不会真正唤起）</string>
+
+    <string name="status_started">已用策略 %1$s 唤起，正在跳转…</string>
+    <string name="status_dryrun">策略 %1$s：调试模式，未真正唤起</string>
+    <string name="status_failed">未成功：%1$s</string>
+
+    <string name="toast_rejected">只认 h5.qiekj.com/skip 的设备码</string>
+    <string name="toast_dryrun">调试模式：只打印日志，没有唤起</string>
+    <string name="toast_mlkit_fallback">本机 ML Kit 不可用，已自动切换到 ZXing 解码</string>
+
+    <string name="btn_rescan">继续扫描</string>
+    <string name="btn_retry_launch">重新唤起</string>
+
+    <!-- 设备 ID 展示 -->
+    <string name="quick_title">上次使用的设备</string>
+    <string name="quick_id_sn">设备号 %1$s</string>
+    <string name="quick_id_nqt">设备标识 %1$s</string>
+
+    <!-- 设备列表 -->
+    <string name="devices_clear">清空全部</string>
+    <string name="devices_clear_confirm">将删除全部 %1$d 台设备的记忆（不影响支付宝里的小程序，也不影响任何账户数据）。继续？</string>
+    <string name="devices_cleared">已清空设备列表</string>
+    <string name="devices_rename">改个名字</string>
+    <string name="devices_delete">删除这一台</string>
+    <string name="devices_rename_hint">例如「北3栋201 冷水」</string>
+    <string name="devices_renamed">已改名</string>
+    <string name="devices_deleted">已删除</string>
+    <string name="devices_more">⋯</string>
+    <string name="devices_pin">放到桌面</string>
+    <string name="devices_pin_ok">已请求添加到桌面。系统可能会弹一个确认框，点「添加」即可。</string>
+    <string name="devices_pin_widget_ok">桌面不接受独立快捷方式，已改为请求放置「这台设备」的 1×1 方块。若桌面没反应，长按桌面空白处 → 添加小部件 → 「QrJump 设备」手动拖一个，拖出来时会问你要绑哪台。</string>
+    <string name="devices_pin_failed">这台机器的桌面既不接受快捷方式，也不接受小部件请求。请手动添加：长按桌面空白处 → 添加小部件 → 「QrJump 设备」</string>
+
+    <!-- 桌面小部件（一台设备一个 1×1 方块） -->
+    <string name="widget_desc">一台设备一个方块，点一下直接进设备页（不代替你确认出水）</string>
+    <string name="widget_cell_unbound">未绑定\n点一下选择</string>
+    <string name="widget_cell_gone">已失效\n点一下重选</string>
+    <string name="widget_config_title">这个方块代表哪台设备？</string>
+    <string name="widget_config_hint">选一台。之后点这个方块就直接进它的设备页。</string>
+    <string name="widget_config_empty">设备列表还是空的。先打开 QrJump 扫码添加一台，再回来放小部件。</string>
+    <string name="widget_config_back">返回</string>
+    <string name="widget_config_failed">没能绑定这台设备，请重新放置小部件</string>
+
+    <!-- 策略 C -->
+    <string name="web_loading">页面加载中…</string>
+    <string name="web_loaded">页面已加载</string>
+    <string name="web_error">页面加载失败（错误码 %1$d）</string>
+    <string name="web_no_handler">没有 App 能处理 %1$s 链接</string>
+    <string name="web_scheme_failed">跳转失败：%1$s</string>
+
+    <!-- 设备列表（启动页） -->
+    <string name="devices_title">我的设备</string>
+    <string name="devices_add">扫码添加设备</string>
+    <string name="devices_settings">设置</string>
+    <string name="devices_empty">还没有设备。点下面的「扫码添加设备」，对准饮水器或热水器机身上的二维码扫一次，它就会出现在这里。</string>
+    <string name="devices_a11y_warn">自动解锁的无障碍授权没了，点这一条去打开它（只需一次）</string>
+    <string name="devices_a11y_open_failed">打不开系统设置，请手动到「设置 → 无障碍」里打开 QrJump</string>
+
+    <!-- 扫码页：按键触发 -->
+    <string name="scan_tap_start">点击开始扫码</string>
+    <string name="scan_title">扫一扫机身二维码</string>
+    <string name="scan_aim_hint">对准机身贴纸上那个正方形二维码，扫到即自动校验并唤起</string>
+    <string name="scan_start_hint">相机不会自动打开，点下面的按钮才会启动</string>
+    <string name="scan_stopped">相机已暂停</string>
+
+    <!-- 自动点击「立即使用」 -->
+    <string name="settings_section_auto">自动解锁</string>
+    <string name="settings_auto_unlock">到设备页后自动点「立即使用」</string>
+    <string name="settings_auto_unlock_note">点完即开始出水并按官方规则计费，没有二次确认。</string>
+    <string name="settings_open_accessibility">打开系统的无障碍设置</string>
+    <string name="a11y_status_unknown">无障碍状态：读取中…</string>
+    <string name="a11y_heal">尝试自动恢复无障碍授权</string>
+    <string name="a11y_heal_note">MIUI 把「从最近任务划掉卡片」当作强制停止，会清空无障碍授权。拿到 WRITE_SECURE_SETTINGS 后本应用会自己写回来，该权限只能 adb 给：\nadb shell pm grant com.local.qrjump android.permission.WRITE_SECURE_SETTINGS</string>
+    <string name="a11y_heal_ok">已恢复无障碍授权，系统会在几秒内重新绑定</string>
+    <string name="a11y_heal_failed">写入没有生效，系统拒绝了。请到系统的无障碍设置里手动打开一次</string>
+    <string name="a11y_heal_no_perm">还没有 WRITE_SECURE_SETTINGS，无法自动恢复。用 adb 执行一次 pm grant 再来试</string>
+    <string name="settings_auto_delay">认出设备页后再等 %1$d 秒才点击</string>
+    <string name="settings_auto_delay_note">「内容准备中」是页面上独立的慢区域，不会自己消失，所以不拿它当闸门：从认出设备页起等满设定秒数再点。慢了就往右调（最多 30 秒）。</string>
+    <string name="toast_accessibility_needed">需要在系统设置里为 QrJump 打开无障碍服务，自动点击才会生效</string>
+    <!-- 设置页 -->
+    <string name="settings_saved">已保存</string>
+    <string name="settings_reset">恢复默认</string>
+    <string name="settings_reset_confirm">将把 appId/page/query 恢复为实测默认值、清空自定义 UA，并把策略恢复为 B。继续？</string>
+    <string name="settings_need_sn">请先填一个设备号或整条二维码链接用于测试</string>
+    <string name="settings_sn_invalid">SN 需 8–32 位纯数字，NQT 需标准 UUID，也可以直接粘贴整条二维码链接</string>
+    <string name="settings_sn_hint">可填：15 位 SN / UUID 形式的 NQT / 整条二维码链接</string>
+
+    <string name="settings_section_strategy">唤起策略</string>
+    <string name="settings_strategy_a">A · 打开原始 URL（只到下载页）</string>
+    <string name="settings_strategy_b">B · 经支付宝唤起小程序（默认）</string>
+    <string name="settings_strategy_c">C · 内置 WebView（外抛官方 scheme）</string>
+
+    <string name="settings_section_behavior">行为</string>
+    <string name="settings_debug">调试模式（只打印日志，不真正唤起）</string>
+    <string name="settings_debug_note">只记录解析结果与将要执行的 Intent，不进设备页，避免误触发扣费。</string>
+    <string name="settings_auto_fallback">启用自动降级（B → C）</string>
+    <string name="shortcut_bad_key">这个快捷方式没有关联到设备，请从应用里重新长按图标创建</string>
+    <string name="shortcut_missing">这台设备已从设备列表里删除，请重新扫码</string>
+
+    <string name="settings_section_b">策略 B 参数（来源：官方分发页自己发起的跳转）</string>
+    <string name="settings_appid">小程序 appId</string>
+    <string name="settings_appid_hint">清空则本档不可用，退化为只用 A/C</string>
+    <string name="settings_page">小程序页面路径 page</string>
+    <string name="settings_page_hint">清空则本档不可用，退化为只用 A/C</string>
+    <string name="settings_query">query 模板（形态①/饮水器，{SN} 会被替换成真实设备号）</string>
+    <string name="settings_query_hint">保留 {SN} 占位符</string>
+    <string name="settings_query_nqt">query 模板（形态②/热水控制，留空=直传官方 query）</string>
+    <string name="settings_query_nqt_hint">留空即把机身码里的 Company/CommunicateType/Ver/NQT 原样带过去；可用 {NQT} {QUERY} 占位符</string>
+    <string name="settings_b_note">这三个默认值来自实测：用策略 C 打开原始 URL 时，官方分发页自己会发起一次 alipays:// 跳转，本应用只是把那次跳转打印出来并接手执行 —— 没有抓包、没有逆向接口。清空即本档不可用。</string>
+
+    <string name="settings_section_c">策略 C 参数</string>
+    <string name="settings_alipay_ua">伪装支付宝 UA</string>
+    <string name="settings_ua">自定义 UA（留空用内置默认）</string>
+    <string name="settings_web_scheme">允许页面把 alipays:// 等 scheme 外抛给支付宝</string>
+
+    <string name="settings_section_test">测试</string>
+    <string name="settings_test_a">用策略 A 试</string>
+    <string name="settings_test_b">用策略 B 试</string>
+    <string name="settings_test_c">用策略 C 试</string>
+    <string name="settings_show_resolve">刷新 resolveActivity 结果</string>
+    <string name="settings_save">保存参数</string>
+    <string name="accessibility_label">QrJump 自动点击「立即使用」</string>
+    <string name="accessibility_desc">仅在从 QrJump 唤起官方设备页后的 2 分钟内生效，用来替你在官方页面上点一次「立即使用」。不做任何其它操作，不读取屏幕上的账号、密码、余额等信息。</string>
+</resources>

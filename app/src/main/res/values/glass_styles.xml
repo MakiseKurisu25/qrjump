@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+      ── 液态玻璃设计语言 ──
+
+      三层同轴：
+        页面  bg_app_gradient（最深，两团柔光）
+        卡片  bg_glass_card     （半透明，22dp 圆角，亮边）
+        行/按钮 bg_glass_row / bg_glass_button（最亮，圆角更大）
+
+      文字三档：
+        主文 #FFFFFF（标题、设备名）
+        次文 #CCFFFFFF（说明、副标题）
+        弱文 #80FFFFFF（提示、描述）
+
+      刻意不用 Material 的实心色块：玻璃感来自"底色能透上来"，
+      任何一块不透明填充都会把整页气氛破坏掉。
+    -->
+
+    <style name="GlassButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">54dp</item>
+        <item name="android:background">@drawable/bg_glass_button</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="GlassButtonOutline">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/bg_glass_button_outline</item>
+        <item name="android:textColor">#D9FFFFFF</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="GlassTitle">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+
+
+</resources>

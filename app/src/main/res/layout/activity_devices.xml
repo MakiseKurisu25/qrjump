@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  启动页 = 设备列表（液态玻璃版）。
+
+  结构没变（标题 → 说明 → 列表 → 底部按钮），只换了皮：
+  所有控件 id 与旧版**完全一致**，所以 DevicesActivity.kt 一行都不用改。
+
+  层次：页面渐变底 → 玻璃卡片包住列表 → 行内是更亮的一层玻璃。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app_gradient">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="14dp">
+
+        <!-- 标题行：大标题 + 胶囊设置按钮 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="6dp"
+            android:paddingEnd="2dp">
+
+            <TextView
+                style="@style/GlassTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/devices_title" />
+
+            <TextView
+                android:id="@+id/btnDevicesSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_glass_button_outline"
+                android:gravity="center"
+                android:minWidth="72dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/devices_settings"
+                android:textColor="#D9FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!--
+          无障碍掉线提示条。默认 gone，只有「授权真的丢了」时才出现。
+
+          为什么需要它：MIUI 上本应用能靠 WRITE_SECURE_SETTINGS 自己把授权写回去；
+          ColorOS（realme）把 pm grant 全局封了（连给 GMS 授权都拒，2026-11-07 实测），
+          所以自动补不回来。既然补不回来，就不能假装没事 —— 直接在这个位置
+          摆一个可点的条，点一下直达系统无障碍页，用户开一下就行。
+        -->
+        <TextView
+            android:id="@+id/tvA11yWarn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_glass_card"
+            android:lineSpacingExtra="4dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="@string/devices_a11y_warn"
+            android:textColor="#FFD98C"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <!-- 列表卡片：玻璃容器，里面是可滚动的设备行 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_glass_card"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvDevicesEmpty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:lineSpacingExtra="5dp"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:paddingTop="52dp"
+                        android:paddingBottom="52dp"
+                        android:text="@string/devices_empty"
+                        android:textColor="#99FFFFFF"
+                        android:textSize="13sp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/containerDevices"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                </LinearLayout>
+            </ScrollView>
+        </FrameLayout>
+
+        <!-- 底部：主操作扫码添加，次操作清空 -->
+        <TextView
+            android:id="@+id/btnAddDevice"
+            style="@style/GlassButton"
+            android:layout_marginTop="16dp"
+            android:text="@string/devices_add" />
+
+        <TextView
+            android:id="@+id/btnDevicesClear"
+            style="@style/GlassButtonOutline"
+            android:layout_marginTop="8dp"
+            android:text="@string/devices_clear" />
+
+    </LinearLayout>
+
+</FrameLayout>

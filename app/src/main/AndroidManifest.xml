@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+      权限只要三个：
+        CAMERA   —— 扫码必需
+        INTERNET —— 策略 C 的内置 WebView 需要
+        （无障碍服务不需要权限声明，它由用户在系统设置里手动授权）
+
+      WRITE_SECURE_SETTINGS 是第四个，但它【不是普通权限】：
+      它是 signature|privileged 级，安装时系统一律拒绝授予，只有
+      `adb shell pm grant` 能给它。所以：
+        - 不授权时，App 一切照旧（只是无法在授权被系统清掉后自愈）；
+        - 授权后，才能把「无障碍授权被划卡清掉」这件事自动修回来。
+      声明在先，pm grant 才认（不声明会报 has not requested permission）。
+
+      没有定位、没有存储、没有读取剪贴板（只写不读）、没有后台服务。
+    -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--
+        MIUI 的桌面在「确认添加小部件」弹窗里会自己再查一次权限：
+            E/AddItemActivity-PinShortcutRequestUtils: add widget failed,
+              com.local.qrjump has no permission
+        它查的是小米自己声明的 com.miui.home.launcher.permission.INSTALL_WIDGET
+        （在 MiuiHome.apk 的 manifest 里 protectionLevel=0，即 normal 级）。
+        normal 级权限声明即得，不需要 adb 授权；不声明则 requestPinAppWidget
+        虽然返回 true，MIUI 的确认弹窗会直接丢弃这次请求，桌面什么都不出现。
+        这两条不影响任何其它桌面（原生 Launcher 会忽略未定义的自定义权限）。
+    -->
+    <uses-permission android:name="com.miui.home.launcher.permission.INSTALL_WIDGET" />
+    <uses-permission android:name="com.miui.home.launcher.permission.UNINSTALL_WIDGET" />
+    <uses-permission
+        android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!--
+      桌面快捷方式的两条通道都已在 2026-11-06 实测废弃，相关权限与 queries 一并删除：
+        · ShortcutManagerCompat.requestPinShortcut() 在 MIUI 上返回 true 却不出图标；
+        · 旧版 com.android.launcher.action.INSTALL_SHORTCUT 广播被 Android 框架直接丢弃
+          （W/ActivityManager: ... no longer supported. It will not be delivered.）。
+      「放到桌面」最终走的是下面的桌面小部件，不需要任何额外权限。
+    -->
+
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="true" />
+
+    <!--
+      Android 11+ 的包可见性限制：不声明 queries 的话
+      resolveActivity() 会永远返回 null，日志就失去诊断意义。
+      这里只声明我们真正关心的两类：https 浏览、支付宝（含 alipays scheme）。
+    -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="alipays" />
+        </intent>
+        <package android:name="com.eg.android.AlipayGphone" />
+    </queries>
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="false"
+        android:theme="@style/Theme.QrJump">
+
+        <!--
+          启动页 = 设备列表。这就是「点开 App 立即呈现所有设备」。
+
+          刻意【不】注册 https://h5.qiekj.com/skip 的 deep link filter：
+          一旦注册，策略 A 用 ACTION_VIEW 打开这个 URL 时，系统可能把请求
+          路由回本 App 自己，形成自我循环。少一个 filter，少一种故障模式。
+        -->
+        <activity
+            android:name=".DevicesActivity"
+            android:exported="true"
+            android:label="@string/devices_title"
+            android:theme="@style/Theme.QrJump.Dark">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+          扫码页。不再是启动页，改为只有从设备列表点「扫码添加设备」才进入，
+          进入后相机也不自动打开，还要再点一次「点击开始扫码」。
+
+          exported 仍然是 true，原因只有一个：README 里那套 adb 调试命令需要从
+          shell 用 extra「com.local.qrjump.extra.FAKE_SCAN」启动它。
+          它没有 intent-filter，普通用户点不到，也没有任何外部输入能改变行为。
+        -->
+        <activity
+            android:name=".ScanActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.QrJump.Fullscreen" />
+
+        <!-- 设置页，不对外导出 -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_settings"
+            android:theme="@style/Theme.QrJump.Light" />
+
+        <!-- 策略 C 的内置 WebView，不对外导出 -->
+        <activity
+            android:name=".WebViewActivity"
+            android:exported="false"
+            android:label="@string/title_webview"
+            android:theme="@style/Theme.QrJump.Light" />
+
+        <!--
+          快捷方式落点。
+          它是唯一一个 exported 的次要组件，原因：桌面快捷方式的启动
+          Intent 由系统 Launcher 进程发出，从本应用的角度看来自"外部"。
+
+          但它的输入只有「设备簿里的键」（形如 SN|<15位数字>），
+          不接受 URL。查不到就直接结束，查到也要重新跑 ParseResult.parse。
+          所以最坏情况 = 打开一台用户自己扫过的机器的官方设备页，
+          与用户手点一次完全等价，不会产生订单或出水。
+        -->
+        <activity
+            android:name=".ShortcutActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.QrJump.Transparent" />
+
+        <!--
+          自动点击「立即使用」的无障碍服务。
+
+          exported 不写（服务不是 activity，默认就是由系统绑定，无需导出）。
+          permission 必须写 BIND_ACCESSIBILITY_SERVICE，否则这个服务
+          可以被任意应用绑定 —— 那是真正危险的情况。
+
+          它是否真的运行，完全取决于用户有没有在「系统设置 → 无障碍」里手动打开，
+          应用自己无法偷偷启用它。
+        -->
+        <service
+            android:name=".AutoUnlockService"
+            android:exported="false"
+            android:label="@string/accessibility_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <!--
+          桌面小部件：这台机器上唯一真正能"把设备摆到桌面"的机制。
+
+          为什么需要它 —— 2026-11-06 23:35 的实测把两条快捷方式通道都堵死了：
+            1. requestPinShortcut 返回 true，桌面不画（MIUI 屏蔽展示层）；
+            2. 旧版 INSTALL_SHORTCUT 广播发出去了，系统直接丢弃：
+               W/ActivityManager: Broadcast com.android.launcher.action.INSTALL_SHORTCUT
+                                  no longer supported. It will not be delivered.
+          而小部件机制从 Android 1.5 至今未被废弃，MIUI 完整支持。
+
+          形态：**一台设备一个 1×1 方块**（2026-11-07 从 3×2 列表改过来）。
+          每个实例绑定哪台设备记在 WidgetBinding 里，由下面的配置页决定。
+          方块只带设备键（SN|8622...），点击后同样走 ShortcutActivity，
+          由它回设备簿查询并重新校验。不存 URL、不存 token。
+        -->
+        <receiver
+            android:name=".DeviceWidgetProvider"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/device_widget_info" />
+        </receiver>
+
+        <!--
+          小部件的配置页：放置时决定这个方块绑哪台设备。
+
+          必须 exported="true"：拉起它的不是本应用，而是系统的 AppWidgetService
+          （在放置小部件/方块失效重选时），从本应用的角度看属于外部调用。
+          它的输入只有 EXTRA_APPWIDGET_ID（一个系统分配的整数 id），
+          拿不到有效 id 就什么都不做，也不能凭它启动任何 URL。
+
+          excludeFromRecents + noHistory：配置完就退，不该留在最近任务里。
+        -->
+        <activity
+            android:name=".WidgetConfigActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:noHistory="true"
+            android:theme="@style/Theme.QrJump.Dark">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>
+

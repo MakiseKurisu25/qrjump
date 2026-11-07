@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  扫码页。相机**不会**自动打开：进页面先看到一块黑底 + 一个大按钮，
+  点「点击开始扫码」才 bindToLifecycle。扫码成功后相机立刻解绑，
+  避免举着手机时一直在跑分析、也避免误扫第二张码。
+
+  返回箭头放在左上角，点了直接 finish() 回设备列表。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app_gradient">
+
+    <!-- 相机预览：扑满全屏，只有点按钮之后才可见、才绑定 -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="no"
+        android:visibility="invisible" />
+
+    <!-- 顶部：状态文字 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingTop="112dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="14dp"
+        android:background="@drawable/bg_scrim_top">
+
+        <TextView
+            android:id="@+id/statusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/scan_title"
+            android:textColor="#FFFFFF"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/hintText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/scan_start_hint"
+            android:textColor="#CCFFFFFF"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- 相机未启动时的中央大按钮 -->
+    <LinearLayout
+        android:id="@+id/startPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingStart="36dp"
+        android:paddingEnd="36dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:lineSpacingExtra="5dp"
+            android:text="@string/scan_aim_hint"
+            android:textColor="#99FFFFFF"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/btnStartScan"
+            style="@style/GlassButton"
+            android:layout_marginTop="22dp"
+            android:layout_height="58dp"
+            android:text="@string/scan_tap_start" />
+    </LinearLayout>
+
+    <!-- 相机运行中的细进度条 -->
+    <ProgressBar
+        android:id="@+id/scanProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_gravity="bottom"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+    <!-- 扫完的结果面板 -->
+    <LinearLayout
+        android:id="@+id/resultPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:background="@drawable/bg_scrim_bottom"
+        android:padding="20dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/quick_title"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/resultDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="#CCFFFFFF"
+            android:textSize="11sp"
+            android:fontFamily="monospace" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btnRetryLaunch"
+                style="@style/GlassButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:text="@string/btn_retry_launch"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/btnRescan"
+                style="@style/GlassButtonOutline"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:text="@string/btn_rescan"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 左上角返回（玻璃胶囊） -->
+    <TextView
+        android:id="@+id/btnScanBack"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="top|start"
+        android:layout_marginTop="44dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/bg_glass_button_outline"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/btn_scan_back"
+        android:textColor="#D9FFFFFF"
+        android:textSize="12sp" />
+
+    <!-- 右上角设置入口（玻璃胶囊） -->
+    <TextView
+        android:id="@+id/btnSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_glass_button_outline"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/title_settings"
+        android:textColor="#D9FFFFFF"
+        android:textSize="12sp" />
+
+</FrameLayout>
+
+
+
+

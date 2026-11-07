@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  设置页外层的「浅色磨砂玻璃」。
+
+  与设备页的深色玻璃是同一套语言的两面：
+    设备页 = 深色玻璃（内容是设备名，需要白字压暗底才显干净）
+    设置页 = 浅色磨砂（内容是一堆表单，深字压亮底才读得清）
+
+  两者共用同一个页面级渐变背景 bg_app_gradient，
+  差别只在玻璃层的明度 —— 这样翻页时背景是连续的，只有玻璃层在换。
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <corners android:radius="26dp" />
+
+    <gradient
+        android:angle="315"
+        android:startColor="#F2FFFFFF"
+        android:centerColor="#E6FFFFFF"
+        android:endColor="#D9FFFFFF"
+        android:type="linear" />
+
+    <stroke
+        android:width="1dp"
+        android:color="#66FFFFFF" />
+</shape>

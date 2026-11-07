@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  扫码页顶部遮罩。
+
+  原来是 #80000000（半透明黑方块），压在相机画面上会切出一条硬边。
+  改成"顶部深、往下渐隐"，与底部结果面板用同一套逻辑，
+  视觉上是相机画面在上下两端自然沉进深色，而不是被两块色块夹住。
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <corners
+        android:bottomLeftRadius="26dp"
+        android:bottomRightRadius="26dp" />
+
+    <gradient
+        android:angle="270"
+        android:startColor="#F20A0F1E"
+        android:centerColor="#B30A0F1E"
+        android:endColor="#000A0F1E"
+        android:type="linear" />
+
+</shape>
